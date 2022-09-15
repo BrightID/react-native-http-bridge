@@ -86,16 +86,23 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
     RCTLogInfo(@"Running HTTP bridge server: %ld", port);
     NSMutableDictionary *_requestResponses = [[NSMutableDictionary alloc] init];
     _completionBlocks = [[NSMutableDictionary alloc] init];
-    
+
     dispatch_sync(dispatch_get_main_queue(), ^{
+        NSError*myError = nil;
         _webServer = [[GCDWebServer alloc] init];
-        
+
+        NSMutableDictionary* options = [NSMutableDictionary dictionary];
+        [options setObject:[NSNumber numberWithInteger:port] forKey:GCDWebServerOption_Port];
+        [options setValue:serviceName forKey:GCDWebServerOption_BonjourName];
+        [options setValue:@NO forKey:GCDWebServerOption_AutomaticallySuspendInBackground];
+        [options setObject:@60.0 forKey:GCDWebServerOption_ConnectedStateCoalescingInterval];
+
         [self initResponseReceivedFor:_webServer forType:@"POST"];
         [self initResponseReceivedFor:_webServer forType:@"PUT"];
         [self initResponseReceivedFor:_webServer forType:@"GET"];
         [self initResponseReceivedFor:_webServer forType:@"DELETE"];
-        
-        [_webServer startWithPort:port bonjourName:serviceName];
+
+        [_webServer startWithOptions:options error:&myError];
     });
 }
 
