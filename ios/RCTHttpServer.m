@@ -101,6 +101,7 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
         [self initResponseReceivedFor:_webServer forType:@"PUT"];
         [self initResponseReceivedFor:_webServer forType:@"GET"];
         [self initResponseReceivedFor:_webServer forType:@"DELETE"];
+        [self initResponseReceivedFor:_webServer forType:@"OPTIONS"];
 
         [_webServer startWithOptions:options error:&myError];
     });
