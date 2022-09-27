@@ -95,7 +95,7 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
         [options setObject:[NSNumber numberWithInteger:port] forKey:GCDWebServerOption_Port];
         [options setValue:serviceName forKey:GCDWebServerOption_BonjourName];
         [options setValue:@NO forKey:GCDWebServerOption_AutomaticallySuspendInBackground];
-        [options setObject:@60.0 forKey:GCDWebServerOption_ConnectedStateCoalescingInterval];
+        [options setObject:@600.0 forKey:GCDWebServerOption_ConnectedStateCoalescingInterval];
 
         [self initResponseReceivedFor:_webServer forType:@"POST"];
         [self initResponseReceivedFor:_webServer forType:@"PUT"];
